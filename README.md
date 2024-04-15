@@ -7,10 +7,6 @@ description: Operating System project
 # i2c custom driver
 Final project for the Operating Systems 2018/2019 course of prof. Giorgio Grisetti held at Sapienza.
 
-<p class="text-center">
-{% include elements/button.html link="https://github.com/lukfre/i2c_custom_driver" text="GitHub repo" %}
-</p>
-
 # What
 Implementation of custom `i2c` drivers for *Master/Slave* the communication between an `Arduino` and a generic `i2c device`.
 
