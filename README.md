@@ -1,24 +1,32 @@
+---
+name:  I2C project 
+tools: [I2C, driver, ]
+image: ./../assets/i2c_videogame.jpg
+description: Operating System project
+---
 # i2c custom driver
+Final project for the Operating Systems 2018/2019 course of prof. Giorgio Grisetti held at Sapienza.
 
-Progetto di Sistemi Operativi *A.A. 2018/2019* del prof. Giorgio Grisetti
+<p class="text-center">
+{% include elements/button.html link="https://github.com/lukfre/i2c_custom_driver" text="GitHub repo" %}
+</p>
 
 # What
-Realizzazione driver `i2c` per la comunicazione *Master/Slave*  tra `Arduino` e `device i2c`.
-In particolare sono state realizzate due versioni:
-1. `i2c/basic`: primitive standard di comunicazione i2c.
-    Per testare questi driver sono stati realizzati due main di prova *Master/Slave* tra due differenti ATMega
-    *(codice disponibile nella cartella `examples/[master/slave])`*
+Implementation of custom `i2c` drivers for *Master/Slave* the communication between an `Arduino` and a generic `i2c device`.
 
-2. `i2c/interrupt`: driver i2c realizzato con Interrupt ed utilizzato nel layer superiore `Comunication.h`
-    per permettere la comunicazione **Multi-Slave**
+We coded two versions:
+1. `i2c/basic`: i2c communication standard primitives.
+    To test these drivers, two *Master/Slave* test mains were made between two different ATMegas *(code available in the `examples/[master/slave] folder)`*.
 
-Inoltre, è stato realizzato il driver per **device LCD** utilizzando il layer `comunication.h` sottostante.
-Il driver permette:
-- gestione diversi display (testati 16x2 e 20x4)
-- Shifting dello schermo
-- Creazione caratteri custom
+2. `i2c/interrupt`: i2c driver made with Interrupt and used in the upper layer `comunication.h` to enable **Multi-Slave** communication.
 
-Come esempio di funzionamento della comunicazione seriale e del driver i2c abbiamo realizzato un videogioco "liberamente ispirato" a Pacman.
+In addition, the driver for a **LCD device** was realized using the underlying `comunication.h` layer.
+The driver allows:
+- managing different displays (tested 16x2 and 20x4)
+- screen shifting
+- custom character creation
+
+As an example of how the serial communication and i2c driver works, we made a video game _"loosely inspired"_ by Pacman.
 
 
 | Master/Slave - 1 : 1| Master/Slave - 1 : n |
@@ -27,29 +35,26 @@ Come esempio di funzionamento della comunicazione seriale e del driver i2c abbia
 |              | comunication  |
 | i2c/basic    | i2c/interrupt |
 
-![arduino](https://gitlab.com/I2Cteam/interrupt2catafano/raw/27e9d0c5b22a59b80bd93164a1ffe9bb2236cf44/img/i2c_videogame.jpg)
+![arduino](./../assets/i2c_videogame.jpg)
 
 # How
-Nella fase iniziale per comprendere a fondo il funzionamento del protocollo abbiamo realizzato la versione `Basic`.
-Successivamente abbiamo realizzato la versione con interrupt e con il supporto al Multi-slave (quindi con separazione degli indirizzi sia a livello hardware che software).
+Initially, to fully understand how the protocol works, we implemented the `Basic` version.
+Later, we realized the version with interrupts and with Multi-slave support (thus with address separation at both hardware and software levels).
 
-Molte difficoltà *(e non solo)* sono nate per la realizzazione della comunicazione non standard, in particolare:
+We encountered many difficulties in the implementation of nonstandard communication in every piece of hardware, in particular:
+- Arduino: reading by disabling interrupts in non-blocking mode 
+- PC: Opening UART properly and defining primitives for communication
+- Display: understanding of low-level screen operation, particularly shift
 
-- Arduino: lettura disabilitando interrupt in modalità non bloccante 
-- PC: Apertura UART in modo corretto e definizione primitive per la comunicazione
-- Display: comprensione del funzionamento dello schermo a basso livello, in particolare dello shift
-
-**N.B.** Lo schermo non viene refreshato ogni volta totalmente (per problemi di tempo) e viene fatto uno shift intero al display.
-Il display però non mantiene un riferimento assoluto delle colonne, ma li cambia ad ogni shift. *(Ex. colonna 3 si muove ad ogni shift.)*
+**N.B.** The screen is not totally refreshed each time (due to time issues) and a full shift is made to the display.
+However, the display does not keep an absolute reference of the columns, but changes them with each shift. *(Ex. column 3 moves with each shift.)*
 
 
 # How to Run
-Per runnare è necessario compilare:
+First, compile:
 - `pc_server`
 - `arduino client`
-quindi:
-
-
+and then:
 ```s
 cd avr/arduino_client
 make
@@ -60,21 +65,21 @@ make
 ./i2c_videogame 0 # 0 se device su ttyACMO, 1 se ttyACM1
 ```
 
-Ora puoi divertirti :smirk:
+Now the fun begins :smirk:
 
 ## How the game works
-Il core del gioco si trova su Arduino, mentre l'input dell'utente è gestito dalla tastiera del pc.
-La comunicazione tra Arduino e PC viene effettuata tramite porta seriale.
+The game core is located on Arduino, while user input is handled by the PC keyboard.
+The communication between Arduino and PC is done via serial port.
 
-Ecco i vari step del gioco:
+Here are the various steps of the game:
 
-1 - All'avvio il PC attende che Arduino sia pronto; una volta sincronizzati comparirà la scritta `start` su entrambi gli schermi.
+1 - At startup the PC waits for the Arduino to be ready; once synchronized the words `start` will appear on both screens.
 
-2 - Tramite tastiera vengono inseriti i dati del Giocatore (*nome e difficoltà desiderata*).
+2 - Via keyboard the Player data (*name and desired difficulty*) is entered.
 
-3 - Arduino è indipendente dal pc, quindi il gioco prosegue anche se non si premono tasti sulla tastiera. A ogni step di refresh invia un messaggio di `life or death` al pc per comunicare lo stato del gioco.
+3 - Arduino is independent of the pc, so the game continues even if no keys are pressed on the keyboard. At each refresh step it sends a `life or death` message to the pc to communicate the status of the game.
 
-4 - Quando il giocatore muore il punteggio viene stampato su entrambi gli schermi e Arduino rimane in attesa di una nuova partita.
+4 - When the player dies the score is printed on both screens and Arduino remains waiting for a new game.
 
 # Authors 
 - Francesco Colasante
