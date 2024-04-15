@@ -1,4 +1,4 @@
-# interrupt2Catafano
+# i2c custom driver
 
 Progetto di Sistemi Operativi *A.A. 2018/2019* del prof. Giorgio Grisetti
 
