@@ -1,0 +1,8 @@
+*.elf
+*.hex
+*.o
+*.~
+/.vscode
+/avr/docs
+!avr/docs/config.conf
+i2c_videogame
