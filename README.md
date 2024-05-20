@@ -78,7 +78,7 @@ Here are the various steps of the game:
 4 - When the player dies the score is printed on both screens and Arduino remains waiting for a new game.
 
 # Authors 
-- Francesco Colasante
-- Luca Gioffrè
-- Gianmarco D'Alessandro
-- Alessandro Accardo
+- [Francesco Colasante](https://github.com/fcolasante)
+- [Luca Gioffrè](https://github.com/lukfre)
+- [Gianmarco D'Alessandro](https://github.com/giamdalessandro)
+- [Alessandro Accardo](https://gitlab.com/accardoalessandro97)
